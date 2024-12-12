@@ -1,0 +1,446 @@
+cabal-version: 3.0
+name:          xbazaar
+version:       0.5.0.0
+
+-- synopsis:
+-- description:
+license:       BSD-3-Clause
+license-file:  LICENSE
+author:        Cajunvoodoo
+maintainer:    27892784+Cajunvoodoo@users.noreply.github.com
+
+-- copyright:
+category:      Game
+build-type:    Simple
+
+-- extra-doc-files: CHANGELOG.md
+
+-- extra-source-files:
+
+common warnings
+  ghc-options:
+    -Wall -Wno-name-shadowing -Werror=incomplete-patterns -threaded
+    -fno-full-laziness "-with-rtsopts=-A128m -ki64m -kc8m -N" -O2
+
+common dynamic-build
+  if flag(dynamic-gui)
+    buildable: True
+
+flag dynamic-gui
+  default: True
+  manual:  True
+
+common extensions
+  default-extensions:
+    AllowAmbiguousTypes
+    Arrows
+    BlockArguments
+    DataKinds
+    DeriveAnyClass
+    DerivingStrategies
+    DerivingVia
+    DuplicateRecordFields
+    FunctionalDependencies
+    LambdaCase
+    NoMonomorphismRestriction
+    NoStarIsType
+    OverloadedLabels
+    OverloadedLists
+    OverloadedStrings
+    PatternSynonyms
+    PolyKinds
+    QuasiQuotes
+    RecordWildCards
+    RoleAnnotations
+    TemplateHaskell
+    TypeFamilies
+    TypeFamilyDependencies
+    TypeOperators
+    ViewPatterns
+
+library
+  import:           warnings, extensions
+  exposed-modules:
+    Bazaar.Client.Client
+    Bazaar.Client.Referee
+    Bazaar.Common
+    Bazaar.Common.Bank
+    Bazaar.Common.Cards
+    Bazaar.Common.Draw
+    Bazaar.Common.Equations
+    Bazaar.Common.Equations.KarpMiller
+    Bazaar.Common.Equations.VASS
+    Bazaar.Common.Hand
+    Bazaar.Common.Internal.Prelude
+    Bazaar.Common.Pebbles
+    Bazaar.Common.RuleBook
+    Bazaar.Player.CardMaximizer
+    Bazaar.Player.KMStrategy
+    Bazaar.Player.Mechanism
+    Bazaar.Player.Player
+    Bazaar.Player.PointMaximizer
+    Bazaar.Player.Reachability
+    Bazaar.Player.Strategy
+    Bazaar.Referee.Observer
+    Bazaar.Referee.Referee
+    Bazaar.Server.Server
+    Bazaar.State.GameState
+    Bazaar.State.TurnState
+
+  -- TODO: README FOR CLIENT AND SERVER
+  build-depends:
+    , JuicyPixels
+    , aeson
+    , base                  ^>=4.18.2.1
+    , bytestring
+    , containers
+    , data-default
+    , deque
+    , diagrams-contrib
+    , diagrams-core
+    , diagrams-lib
+    , diagrams-rasterific
+    , duvet
+    , effectful
+    , effectful-core
+    , effectful-plugin
+    , effectful-th
+    , extra
+    , file-embed
+    , filelock
+    , hiedb-plugin
+    , json-stream
+    , karp-miller
+    , ki-effectful
+    , multiset
+    , network
+    , network-effectful
+    , network-run
+    , network-simple
+    , optparse-applicative
+    , pretty-show
+    , random
+    , regex
+    , retry
+    , split
+    , text
+    , these
+    , vass
+    , vector
+    , vector-sized
+
+  hs-source-dirs:   ./.
+  default-language: GHC2021
+  ghc-options:      -fplugin=Effectful.Plugin -O2 -fexpose-all-unfoldings
+
+-- executable xbazaar
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          Main.hs
+
+--   -- other-modules:
+--   -- other-extensions:
+--   build-depends:
+--     , aeson
+--     , base        ^>=4.18.2.1
+--     , bytestring
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+
+-- executable xeq
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          Xeq.hs
+--   build-depends:
+--     , aeson
+--     , base         ^>=4.18.2.1
+--     , bytestring
+--     , json-stream
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+
+-- executable xturn
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          Xturn.hs
+--   build-depends:
+--     , aeson
+--     , base         ^>=4.18.2.1
+--     , bytestring
+--     , json-stream
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+
+-- executable xstrategy
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          Xstrategy.hs
+--   build-depends:
+--     , aeson
+--     , base              ^>=4.18.2.1
+--     , bytestring
+--     , effectful
+--     , effectful-core
+--     , effectful-plugin
+--     , json-stream
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+--   ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+
+-- executable xrules
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          Xrules.hs
+--   build-depends:
+--     , aeson
+--     , base              ^>=4.18.2.1
+--     , bytestring
+--     , effectful
+--     , effectful-core
+--     , effectful-plugin
+--     , json-stream
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+--   ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+
+-- executable xgames
+--   import:           warnings, extensions
+--   main-is:          Xgames.hs
+--   build-depends:
+--     , data-default
+--     , aeson
+--     , base                  ^>=4.18.2.1
+--     , bytestring
+--     , diagrams-contrib
+--     , diagrams-core
+--     , diagrams-lib
+--     , diagrams-rasterific
+--     , directory
+--     , effectful
+--     , effectful-core
+--     , effectful-plugin
+--     , filelock
+--     , filepath
+--     , json-stream
+--     , optparse-applicative
+--     , random
+--     , regex
+--     , text
+--     , unix
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+--   ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+
+-- executable xgames-static
+--   import:           warnings, extensions, dynamic-build
+--   main-is:          XGamesStatic.hs
+--   other-modules:    XGamesCommon
+--   build-depends:
+--     , aeson
+--     , base                 ^>=4.18.2.1
+--     , bytestring
+--     , containers
+--     , diagrams-contrib
+--     , diagrams-core
+--     , diagrams-lib
+--     , diagrams-rasterific
+--     , data-default
+--     , directory
+--     , effectful
+--     , effectful-core
+--     , effectful-plugin
+--     , filelock
+--     , filepath
+--     , json-stream
+--     , JuicyPixels
+--     , ki-effectful
+--     , random
+--     , regex
+--     , text
+--     , vector
+--     , xbazaar
+
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+--   ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+
+-- executable xgames-dynamic
+--   import:           warnings, extensions
+--   main-is:          XGamesDynamic.hs
+--   other-modules:    XGamesCommon
+--   hs-source-dirs:   app
+--   default-language: GHC2021
+--   ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+
+--   if flag(dynamic-gui)
+--     build-depends:
+--       , aeson
+--       , base                  ^>=4.18.2.1
+--       , bytestring
+--       , containers
+--       , deque
+--       , diagrams-contrib
+--       , diagrams-core
+--       , data-default
+--       , diagrams-lib
+--       , diagrams-rasterific
+--       , directory
+--       , effectful
+--       , effectful-core
+--       , effectful-plugin
+--       , file-embed
+--       , filelock
+--       , json-stream
+--       , JuicyPixels
+--       , ki-effectful
+--       , lens
+--       , linear
+--       , monomer
+--       , mtl
+--       , network-effectful
+--       , optparse-applicative
+--       , pretty-show
+--       , random
+--       , regex
+--       , sdl2
+--       , silently
+--       , text
+--       , unix
+--       , vector
+--       , xbazaar
+
+--   else
+--     buildable: False
+
+executable xserver
+  import:           warnings, extensions, dynamic-build
+  main-is:          XServer.hs
+  hs-source-dirs:   app
+  default-language: GHC2021
+  ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+  build-depends:
+    , aeson
+    , base                 ^>=4.18.2.1
+    , bytestring
+    , containers
+    , diagrams-contrib
+    , diagrams-core
+    , diagrams-lib
+    , diagrams-rasterific
+    , directory
+    , effectful
+    , effectful-core
+    , data-default
+    , effectful-plugin
+    , filelock
+    , filepath
+    , json-stream
+    , JuicyPixels
+    , ki-effectful
+    , random
+    , regex
+    , text
+    , vector
+    , xbazaar
+    , optparse-applicative
+
+executable xclient
+  import:           warnings, extensions, dynamic-build
+  main-is:          XClient.hs
+  hs-source-dirs:   app
+  default-language: GHC2021
+  ghc-options:      -O2 -rtsopts -fplugin=Effectful.Plugin
+  build-depends:
+    , aeson
+    , base                 ^>=4.18.2.1
+    , bytestring
+    , containers
+    , diagrams-contrib
+    , diagrams-core
+    , diagrams-lib
+    , diagrams-rasterific
+    , directory
+    , effectful
+    , effectful-core
+    , effectful-plugin
+    , filelock
+    , filepath
+    , json-stream
+    , JuicyPixels
+    , ki-effectful
+    , random
+    , regex
+    , text
+    , vector
+    , xbazaar
+    , data-default
+    , ki-unlifted
+
+common tests
+  import:           warnings, extensions
+  default-language: GHC2021
+  hs-source-dirs:   test
+  other-modules:    Generators
+  build-depends:
+    , aeson
+    , async
+    , base                 ^>=4.18.2.1
+    , bytestring
+    , containers
+    , data-default
+    , deque
+    , diagrams-contrib
+    , diagrams-core
+    , diagrams-lib
+    , diagrams-rasterific
+    , duvet
+    , effectful
+    , effectful-core
+    , effectful-plugin
+    , hedgehog
+    , hedgehog-corpus
+    , hiedb-plugin
+    , karp-miller
+    , ki-effectful
+    , ki-unlifted
+    , lifted-async
+    , mtl
+    , multiset
+    , network-effectful
+    , pretty-show
+    , random
+    , stm
+    , text
+    , transformers
+    , vass
+    , vector
+    , vector-sized
+    , xbazaar
+
+  ghc-options:
+    -O2 -threaded -rtsopts "-with-rtsopts=-N -A128m -ki64m -kc8m"
+    -fplugin=Effectful.Plugin
+
+-- Executable version of the tests, which is submitted as a static binary.
+executable xtest
+  import:  tests
+  main-is: Main.hs
+
+-- test-suite version of the tests, which is used for tooling (cabal, nix).
+-- test-suite xtest-suite
+--   import:  tests
+--   main-is: Main.hs
+--   type:    exitcode-stdio-1.0

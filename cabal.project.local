@@ -1,0 +1,5 @@
+packages: *.cabal
+ignore-project: False
+-- profiling: True
+-- library-profiling: True
+Tests: True
